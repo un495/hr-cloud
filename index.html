@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>採用におけるLINE活用の提案</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .slides-wrapper {
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .stat-box {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            min-width: 150px;
+            flex: 1;
+            box-shadow: 0 8px 20px rgba(30,60,114,0.3);
+        }
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin: 0.75rem 0;
+            border-left: 5px solid #1e3c72;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 1000px;
+        }
+        .highlight-box h3 {
+            color: #1e3c72;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        .highlight-box ul {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #333;
+            margin-left: 1rem;
+        }
+        .highlight-box li {
+            margin-bottom: 0.5rem;
+        }
+        .toc-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .toc-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            border-left: 5px solid #1e3c72;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .toc-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(30,60,114,0.2);
+        }
+        .toc-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 2rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+        .toc-title {
+            font-size: 0.9rem;
+            color: #1e3c72;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .toc-description {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.4;
+        }
+        .toc-simple {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            width: 100%;
+            max-width: 900px;
+            padding: 1rem;
+        }
+        .toc-item-simple {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 0.5rem;
+            border-left: 3px solid #1e3c72;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            min-height: 2.5rem;
+        }
+        .toc-item-simple:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30,60,114,0.15);
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left-color: #06C755;
+        }
+        .toc-number-simple {
+            color: #1e3c72;
+            font-weight: bold;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+            min-width: 1.5rem;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+        .toc-title-simple {
+            color: #1e3c72;
+            font-size: 0.8rem;
+            font-weight: 500;
+            line-height: 1.3;
+            flex: 1;
+        }
+        .case-study {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+            border-left: 5px solid #06C755;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 1000px;
+        }
+        .case-study h3 {
+            color: #06C755;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        .case-study p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+            border-left: 5px solid #ffc107;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 1000px;
+        }
+        .warning-box h3 {
+            color: #856404;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        .warning-box ul {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #333;
+            margin-left: 1rem;
+        }
+        .conclusion-box {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(30,60,114,0.3);
+            width: 100%;
+            max-width: 1000px;
+        }
+        .conclusion-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            font-weight: bold;
+        }
+        .conclusion-box p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: white;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .chart-bar {
+            background: linear-gradient(135deg, #06C755 0%, #00D4AA 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            min-width: 120px;
+            flex: 1;
+            box-shadow: 0 5px 15px rgba(6,199,85,0.3);
+        }
+        .chart-label {
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .chart-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8">
+    
+    <!-- Slide Container -->
+    <div id="presentation-container" class="relative w-full max-w-5xl aspect-[16/9] bg-white rounded-lg shadow-2xl flex flex-col justify-center items-center border-4 border-blue-700 overflow-hidden">
+        
+        <!-- Slides Wrapper -->
+        <div class="slides-wrapper flex w-full h-full">
+            
+            <!-- Slide 1: Title -->
+            <div class="slide">
+                <div class="text-center flex items-center justify-center h-full">
+                    <div>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4" style="color: #06C755;">
+                            採用におけるLINE活用のご紹介
+                        </h1>
+                        <p class="text-xl sm:text-2xl lg:text-3xl text-gray-500">
+                            株式会社みちのくモビリティサービス様向け
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 2: Table of Contents -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">目次</h2>
+                <div class="toc-simple">
+                    <div class="toc-item-simple" onclick="goToSlide(2)">
+                        <span class="toc-number-simple">1.</span>
+                        <span class="toc-title-simple">青森県の人口減少の現状</span>
+                    </div>
+
+                    <div class="toc-item-simple" onclick="goToSlide(10)">
+                        <span class="toc-number-simple">2.</span>
+                        <span class="toc-title-simple">LINE活用事例：静岡日産自動車株式会社</span>
+                    </div>
+                    <div class="toc-item-simple" onclick="goToSlide(11)">
+                        <span class="toc-number-simple">3.</span>
+                        <span class="toc-title-simple">LINE活用事例：宮城日産自動車株式会社</span>
+                    </div>
+                    <div class="toc-item-simple" onclick="goToSlide(12)">
+                        <span class="toc-number-simple">4.</span>
+                        <span class="toc-title-simple">LINE活用事例：ホンダカーズ北大阪</span>
+                    </div>
+                    <div class="toc-item-simple" onclick="goToSlide(13)">
+                        <span class="toc-number-simple">5.</span>
+                        <span class="toc-title-simple">LINE活用事例：群馬トヨタグループ</span>
+                    </div>
+                    <div class="toc-item-simple" onclick="goToSlide(14)">
+                        <span class="toc-number-simple">6.</span>
+                        <span class="toc-title-simple">LINE活用事例：プレミアグループ株式会社</span>
+                    </div>
+                    <div class="toc-item-simple" onclick="goToSlide(15)">
+                        <span class="toc-number-simple">7.</span>
+                        <span class="toc-title-simple">LINE採用の注意点</span>
+                    </div>
+                    <div class="toc-item-simple" onclick="goToSlide(5)">
+                        <span class="toc-number-simple">8.</span>
+                        <span class="toc-title-simple">青森県の雇用状況（高校生・大学生）</span>
+                    </div>
+                    <div class="toc-item-simple" onclick="goToSlide(7)">
+                        <span class="toc-number-simple">9.</span>
+                        <span class="toc-title-simple">承諾率を上げる為には</span>
+                    </div>
+                    <div class="toc-item-simple" onclick="goToSlide(8)">
+                        <span class="toc-number-simple">10.</span>
+                        <span class="toc-title-simple">対策として</span>
+                    </div>
+                    <div class="toc-item-simple" onclick="goToSlide(9)">
+                        <span class="toc-number-simple">11.</span>
+                        <span class="toc-title-simple">Z世代の情報収集について</span>
+                    </div>
+                    <div class="toc-item-simple" onclick="goToSlide(10)">
+                        <span class="toc-number-simple">12.</span>
+                        <span class="toc-title-simple">LINEを使うべき理由のまとめ</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 3: 改めてなぜ今採用が難しいのか？ -->
+            <div class="slide">
+                <div class="text-center flex items-center justify-center h-full">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-700 leading-tight" style="white-space: nowrap;">
+                        改めてなぜ今採用が難しいのか？
+                    </h2>
+                </div>
+            </div>
+            
+            <!-- Slide 4: 青森県の人口減少の現状 -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">青森県の人口減少の現状</h2>
+                <div class="highlight-box" style="width: 100%; max-width: 1000px;">
+                    <h3 style="font-size: 1.6rem; margin-bottom: 2rem; text-align: center;">人口推移（2021年～2025年）</h3>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 1.2rem; line-height: 1.6;">
+                            <thead>
+                                <tr style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white;">
+                                    <th style="padding: 1rem; text-align: center; border: 2px solid #1e3c72; font-weight: bold;">年</th>
+                                    <th style="padding: 1rem; text-align: center; border: 2px solid #1e3c72; font-weight: bold;">人口</th>
+                                    <th style="padding: 1rem; text-align: center; border: 2px solid #1e3c72; font-weight: bold;">前年比</th>
+                                    <th style="padding: 1rem; text-align: center; border: 2px solid #1e3c72; font-weight: bold;">減少率</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6; font-weight: bold;">2025年</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6; font-weight: bold;">1,160,854人</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6;">-19,818人</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6;">-1.68%</td>
+                                </tr>
+                                <tr style="background: white;">
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6; font-weight: bold;">2024年</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6; font-weight: bold;">1,180,672人</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6;">-19,792人</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6;">-1.65%</td>
+                                </tr>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6; font-weight: bold;">2023年</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6; font-weight: bold;">1,200,464人</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6;">-17,524人</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6;">-1.44%</td>
+                                </tr>
+                                <tr style="background: white;">
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6; font-weight: bold;">2022年</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6; font-weight: bold;">1,217,988人</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6;">-16,934人</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6;">-1.37%</td>
+                                </tr>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6; font-weight: bold;">2021年</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6; font-weight: bold;">1,234,922人</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6;">-</td>
+                                    <td style="padding: 1rem; text-align: center; border: 2px solid #dee2e6;">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <h3>トピックス</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>年間減少：</strong>青森県では、1年間でおよそ2万人の人口が減少</li>
+                        <li><strong>三沢市との比較：</strong>これは、県内の三沢市（人口約37,000人）の人口の半分以上が毎年失われていることに相当</li>
+                        <li><strong>全国順位：</strong>減少率は秋田県に次いで全国2番目に高くなりました</li>
+                        <li><strong>社会減少：</strong>転出者が転入者を上回る割合は0.37％と、2年続けて全国で最も高くなりました</li>
+                    </ul>
+                </div>
+            </div>
+            
+
+            
+            <!-- Slide 5: 青森県の雇用状況（高校生・大学生） -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">青森県の雇用状況（高校生・大学生）</h2>
+                
+                <div class="highlight-box">
+                    <h3>高校生の求人倍率の現状</h3>
+                    <div class="stats-container">
+                        <div class="stat-box">
+                            <div class="stat-number">2.95倍</div>
+                            <div class="stat-label">求人倍率</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">4150人</div>
+                            <div class="stat-label">求人数</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">1407人</div>
+                            <div class="stat-label">就職希望者</div>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>県内就職希望者：1407人</li>
+                        <li>県内企業からの求人数：4150人</li>
+                        <li>求人倍率：2.95倍（過去2番目の高さ）</li>
+                        <li>早期求人票提出により後半採用が困難</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>大学生の就職内定状況</h3>
+                    <div class="stats-container">
+                        <div class="stat-box">
+                            <div class="stat-number">79.0%</div>
+                            <div class="stat-label">全体内定率</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">39.3%</div>
+                            <div class="stat-label">県内就職希望者</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">60.7%</div>
+                            <div class="stat-label">県外就職希望者</div>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>就職希望者総数：3,890人（前年比3.3%減）</li>
+                        <li>県内就職希望者：1,529人（前年比0.7%増、全体の39.3%）</li>
+                        <li>県外就職希望者：2,361人（前年比5.7%減、全体の60.7%）</li>
+                        <li>未内定者：817人（前年比6.9%減）</li>
+                    </ul>
+                </div>
+            </div>
+            
+
+            
+            <!-- Slide 7: 承諾率を上げる為には -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">承諾率を上げる為には</h2>
+                <div class="highlight-box">
+                    <h3>企業視点の危機感</h3>
+                    <p style="font-size: 1.2rem; line-height: 1.8; margin: 1rem 0; text-align: center; font-weight: bold;">
+                        企業の40%が学生の企業理解度が不足していると感じている
+                    </p>
+                    <p style="font-size: 1rem; color: #666; margin-top: 1rem; text-align: center;">
+                        <strong>出典：</strong>キャリタス就活2025卒 中間調査
+                    </p>
+                </div>
+                <div class="highlight-box">
+                    <h3>学生が承諾を決める軸</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 1rem 0;">
+                        <div style="background: #e8f5e8; padding: 1rem; border-radius: 0.5rem; border-left: 3px solid #06C755;">
+                            <h4 style="font-weight: bold; margin-bottom: 0.5rem; color: #06C755;">承諾理由トップ</h4>
+                            <p style="font-size: 1rem; margin: 0;"><strong>「やりたい仕事ができる」</strong>15.1%</p>
+                            <p style="font-size: 0.9rem; margin: 0.5rem 0 0 0;">次点：「社員・社風が魅力」9.2%</p>
+                        </div>
+                        <div style="background: #fff3cd; padding: 1rem; border-radius: 0.5rem; border-left: 3px solid #ffc107;">
+                            <h4 style="font-weight: bold; margin-bottom: 0.5rem; color: #856404;">辞退理由上位</h4>
+                            <p style="font-size: 1rem; margin: 0;"><strong>「やりたい仕事ではない」</strong></p>
+                            <p style="font-size: 1rem; margin: 0;"><strong>「情報不足」</strong></p>
+                        </div>
+                    </div>
+                    <p style="font-size: 1rem; color: #666; margin-top: 1rem; text-align: center;">
+                        <strong>出典：</strong>就職みらい研究所 就職プロセス調査2024卒
+                    </p>
+                </div>
+                <div class="highlight-box">
+                    <h3>情報不足 → 不安 → 辞退の連鎖</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>働くイメージを描けない学生ほど辞退に傾斜</strong></li>
+                        <li><strong>交流を通じた"具体化"が承諾率を押し上げる</strong></li>
+                        <li><strong>双方向コミュニケーション</strong>で学生の不安を解消する必要がある</li>
+                    </ul>
+                    <p style="font-size: 1rem; color: #666; margin-top: 1rem; text-align: center;">
+                        <strong>出典：</strong>パーソル総合研究所 内定辞退定量調査
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Slide 8: 対策として -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">対策として</h2>
+                <div class="highlight-box">
+                    <h3>トレンドは採用マーケティング</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        採用マーケティングとは、求職者に対して企業の魅力を戦略的に発信し、応募・入社へとつなげる取り組みです。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        その中でも近年注目されているのが、<strong>「パーソナライズドリクルーティング（個別最適化された採用）」</strong>という考え方です。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        これは、求職者一人ひとりの興味・価値観・行動履歴に合わせて、最適なタイミング・手段・内容で情報提供やアプローチを行う手法です。
+                    </p>
+                </div>
+                <div class="highlight-box">
+                    <h3>注目される背景</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>売り手市場の加速：</strong>従来型募集では母集団が集まらない</li>
+                        <li><strong>就活軸の多様化：</strong>働き方・価値観・スキル志向により、候補者ごとに合わせた情報提供が不可欠</li>
+                        <li><strong>雰囲気重視の就職軸：</strong>会社の雰囲気や先輩社員等どういった場所で働くのかを意識される</li>
+                        <li><strong>デジタル化：</strong>SNS／検索広告／LINEなどタッチポイントが爆発的に増加</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 9: Z世代の情報収集について -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">Z世代の情報収集について</h2>
+                <div class="highlight-box">
+                    <h3>Z世代のコミュニケーション特性</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>大学生のLINE利用率：</strong>99%超（2019年以降不動）</li>
+                        <li><strong>スマホファースト世代：</strong>高校生スマホ保有率98.3%、中学生でも93%が自分専用スマホ</li>
+                        <li><strong>就活開始以前からスマホが"初めての通信端末"</strong>。メール文化に馴染みが薄い</li>
+                        <li><strong>開封率比較：</strong>メール20% vs. LINE60%（同じ内容でもLINEなら読まれる確率が約3倍）</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3>ショート動画ネイティブ</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>TikTok・YouTube Shorts</strong>など "≤60秒" 縦型動画で情報取得・発信</li>
+                        <li><strong>視聴完了率が高く、コメント欄での双方向性も強い</strong></li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3>"即レス"期待値</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>SNS返信は数時間内が当たり前</strong></li>
+                        <li><strong>反応が遅い＝関心が薄いと認知されやすい</strong></li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3>透明性・リアル志向</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>"盛った"広告より裏側の素顔を重視</strong></li>
+                        <li><strong>匿名SNSでも「実体験」投稿が拡散＆口コミ世代</strong></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 10: LINEを使うべき理由のまとめ -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">LINEを使うべき理由のまとめ</h2>
+                <div class="highlight-box">
+                    <h3>1. 青森県の厳しい採用環境</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>人口減少の深刻化：</strong>年間約2万人減少、三沢市の半分以上の人口が毎年失われる</li>
+                        <li><strong>求人倍率の高止まり：</strong>高校生求人倍率2.95倍（過去2番目の高さ）</li>
+                        <li><strong>新卒市場の早期化：</strong>2025卒の内定率98.8%（過去最高）、前年2月までに選考開始72.9%</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3>2. 企業が直面する課題</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>母集団形成の困難：</strong>2025卒採用で「エントリーが前年より減った」企業が51.4%</li>
+                        <li><strong>企業理解不足：</strong>約40%の企業が「企業理解不足の学生が増えた」と実感</li>
+                        <li><strong>承諾率の低下リスク：</strong>学生の情報不足→不安→辞退の連鎖</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3>3. Z世代の特性</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>LINE利用率99%超：</strong>大学生の主要連絡手段</li>
+                        <li><strong>スマホファースト：</strong>高校生スマホ保有率98.3%、中学生でも93%が自分専用スマホ</li>
+                        <li><strong>開封率の差：</strong>メール20% vs. LINE60%（約3倍の差）</li>
+                        <li><strong>即レス期待値：</strong>SNS返信は数時間内が当たり前</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3>4. 採用マーケティングの必要性</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>パーソナライズドリクルーティング：</strong>個別最適化された採用手法</li>
+                        <li><strong>売り手市場の加速：</strong>従来型募集では母集団が集まらない</li>
+                        <li><strong>雰囲気重視の就職軸：</strong>会社の雰囲気や先輩社員等を重視</li>
+                    </ul>
+                </div>
+
+            </div>
+            
+
+            
+            <!-- Slide 10: LINE活用事例：静岡日産自動車株式会社 -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">LINE活用事例：静岡日産自動車株式会社</h2>
+                <div class="case-study">
+                    <h3>LINEで説明会日程調整から内定フォローまで</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        静岡日産では、応募者とのコミュニケーション円滑化のため採用向けLINE公式アカウントを開設しています。学生に友だち登録してもらい、新卒・中途問わず会社説明会の日程調整やエントリーシート・履歴書のアップロード提出をLINE上で完結できる仕組みを導入しました。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        従来、説明会参加率や選考応募率が伸び悩んでいたため、学生とのスムーズなコミュニケーション強化による歩留まり（応募率）改善を狙ったものです。またナビサイトや学校訪問など複数経路の応募情報をLINEに一本化し、窓口を統一することで管理の効率化も図りました。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        実際、静岡日産では<strong>「LINEを活用したコミュニケーション機能の充実が歩留まり改善に直結する」</strong>点を決め手にLINE連携の採用管理ツールを導入しており、内定後のフォローもしやすい環境を整備しています。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>効果：</strong>応募者への情報発信や個別対応が迅速になり、内定承諾率の向上と採用業務の効率化に効果を上げています。
+                    </p>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">
+                        <strong>参考URL：</strong>recruit.shizuoka-nissan.jp, rakuruit.jp
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Slide 11: LINE活用事例：宮城日産自動車株式会社 -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">LINE活用事例：宮城日産自動車株式会社</h2>
+                <div class="case-study">
+                    <h3>内定者イベント案内とフォローアップ</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        宮城日産では、内定者フォロー施策として入社前イベントを開催し、LINE公式アカウントで案内・出欠確認を行っています。実際に、先日実施した内定者向け懇親イベントでは「入社前に未来の同期と会えるのは安心」といったメリットを打ち出し、次回開催の案内は公式LINE経由で希望日程を連絡するよう呼びかけています。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        このようにLINE上で気軽に参加希望を募り、内定者同士や人事担当者とのコミュニケーションを密に取ることで、入社前の不安を解消し内定辞退の防止につなげています。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>効果：</strong>LINEはチャット形式で質問や相談もしやすいため、内定者との一対一のフォローアップ手段として活用されており、入社までのモチベーション維持に寄与しています。
+                    </p>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">
+                        <strong>参考URL：</strong>instagram.com
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Slide 12: LINE活用事例：ホンダカーズ北大阪 -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">LINE活用事例：ホンダカーズ北大阪</h2>
+                <div class="case-study">
+                    <h3>LINEで応募受付・質問対応を一本化</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        ホンダカーズ北大阪（Honda Cars北大阪）では、新卒・中途採用エントリーの受付をLINE公式アカウントで開始しています。応募に興味を持った方は公式LINEを友だち追加してエントリーでき、問い合わせや質問もすべてLINEトーク上で対応可能です。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        この取り組みにより、応募者はメールフォームより手軽にスマホでエントリーできるようになり、採用ハードルの低減に成功しています。実際、Z世代の求職者は「手軽に応募できるか」を重視するため、LINEでの応募受付や質問対応は「気になるけれど不安…」という層を取りこぼさない効果的な施策といえます。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>効果：</strong>ホンダカーズ北大阪はこうしたLINE活用で応募母集団の拡大と候補者とのスピーディなやりとりを実現し、結果として選考への移行率向上が期待できます。
+                    </p>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">
+                        <strong>参考URL：</strong>honda-kitaosaka.com, recruit.carmarke.com
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Slide 13: LINE活用事例：群馬トヨタグループ -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">LINE活用事例：群馬トヨタグループ</h2>
+                <div class="case-study">
+                    <h3>新卒応募者に公式LINE登録を促進</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        トヨタ系ディーラーである群馬トヨタグループでも、新卒採用エントリー時に採用公式LINEへの登録を必須のフローとしています。エントリーページ上で「当社採用公式LINEをご登録ください」と案内し、LINE経由で選考情報を案内する仕組みです。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        プライベートで日常的に使うLINEで連絡を受け取れるため、説明会案内の既読率アップやリマインドの確実化に効果があります。メールだと埋もれがちな連絡事項も、LINE通知なら見落とされにくく即時に届くことから、説明会出席率の向上やリマインドによるドタキャン防止にも寄与しています。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>効果：</strong>実際LINE公式アカウントでは、説明会日程の案内、一斉配信による周知、リッチメニューでの企業情報提供などが行われており、応募者との接点強化と歩留まり改善に貢献しています。
+                    </p>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">
+                        <strong>参考URL：</strong>recruit.gtg.co.jp, line-sm.com
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Slide 14: LINE活用事例：プレミアグループ株式会社 -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">LINE活用事例：プレミアグループ株式会社</h2>
+                <div class="case-study">
+                    <h3>面接日程調整の工数は半減！LINE活用で学生からのレスポンス向上</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        プレミアグループでは、LINEの活用において学生からのレスポンスが早くなりました。電話でイベントを案内するとログインの手間が無いためか、電話を繋げたままLINEを開き、その場でイベント予約をしてくれることも多く、やはりLINEの方が学生にとっては使いやすいのだと実感しています。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        学生から「プレミアグループは公式LINEがあって助かる」と言っていただけることが多く、気軽に相談や面談の依頼をしてくれるなど学生からのアクションが増えたことを実感しています。多数の企業からメールが届くため、就職活動中のメールボックスは毎日確認が大変ですよね。イベントの予定を確認するのも何件もメールボックスを遡る必要があり、管理が面倒だと感じる学生も多いと思います。
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>効果：</strong>弊社のエントリーシート提出以降の学生のLINE連携率は約90%となっており、多くの学生が進んで利用してくれています。また、面接日程調整にかける時間は約半分に削減できたと実感しています。
+                    </p>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">
+                        <strong>参考URL：</strong>https://www.career-cloud.asia/lp/interview/premier-group
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Slide 15: LINE採用の注意点 -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-blue-700 mb-6">LINE採用の注意点</h2>
+                <div class="warning-box">
+                    <h3>注意点</h3>
+                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                        <li><strong>選考ステータスの管理ができない：</strong>エントリーから内定までの進捗状況をLINE上で把握・共有するのは困難。</li>
+                        <li><strong>対応履歴の可視化が不十分：</strong>過去のやりとりが流れてしまい、履歴確認や引き継ぎが煩雑。</li>
+                        <li><strong>社内共有がしにくい：</strong>担当者しか状況を把握できず、他メンバーとの連携が取りづらい。</li>
+                        <li><strong>分析・レポートができない：</strong>面接通過率や媒体別効果などの数値集計が困難。</li>
+                        <li><strong>応募経路が統合できない：</strong>複数媒体や紹介会社経由の応募情報をLINEだけではまとめられない。</li>
+                        <li><strong>面接日程調整が煩雑：</strong>LINEでの日程調整は時間と手間がかかり、ミスの原因にもなる。</li>
+                        <li><strong>フォロー施策が属人的になる：</strong>内定後のフォローや連絡のタイミングが個人任せになりやすい。</li>
+                        <li><strong>情報の整理が手動：</strong>スプレッドシート等で補完する必要があり、人的負担が増える。</li>
+                    </ul>
+                </div>
+            </div>
+            
+
+
+        </div>
+
+        <!-- Top Right Page Number -->
+        <div class="absolute top-4 right-4 z-10">
+            <div class="text-gray-400 text-sm font-medium opacity-70">
+                <span id="page-number">1</span> / <span id="total-pages"></span>
+            </div>
+        </div>
+
+        <!-- Bottom Left Navigation -->
+        <div class="absolute bottom-4 left-4 z-10">
+            <button id="prev-btn" class="text-blue-600 hover:text-blue-800 transition-all duration-300 p-2 rounded-full hover:bg-blue-50 bg-white/80 backdrop-blur-sm">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Bottom Right Navigation -->
+        <div class="absolute bottom-4 right-4 z-10">
+            <button id="next-btn" class="text-blue-600 hover:text-blue-800 transition-all duration-300 p-2 rounded-full hover:bg-blue-50 bg-white/80 backdrop-blur-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // DOM要素を取得
+        const slidesWrapper = document.querySelector('.slides-wrapper');
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageNumberEl = document.getElementById('page-number');
+        const totalPagesEl = document.getElementById('total-pages');
+
+        // スライドの初期設定
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        totalPagesEl.textContent = totalSlides;
+
+        // スライドを移動させる関数
+        const goToSlide = (slideIndex) => {
+            // インデックスが範囲外にならないように制御
+            if (slideIndex < 0 || slideIndex >= totalSlides) {
+                return;
+            }
+            // スライドのラッパーを移動
+            slidesWrapper.style.transform = `translateX(-${slideIndex * 100}%)`;
+            currentSlide = slideIndex;
+            
+            // ページ番号を更新
+            pageNumberEl.textContent = currentSlide + 1;
+
+            // ナビゲーションボタンの表示/非表示を更新
+            updateNavButtons();
+        };
+
+        // ナビゲーションボタンの表示/非表示を制御する関数
+        const updateNavButtons = () => {
+            // totalSlidesが1の場合、両方のボタンを非表示
+            if (totalSlides <= 1) {
+                prevBtn.style.opacity = '0';
+                prevBtn.style.pointerEvents = 'none';
+                nextBtn.style.opacity = '0';
+                nextBtn.style.pointerEvents = 'none';
+                return;
+            }
+
+            // 最初のスライドなら「前へ」を非表示
+            prevBtn.style.opacity = currentSlide === 0 ? '0' : '1';
+            prevBtn.style.pointerEvents = currentSlide === 0 ? 'none' : 'auto';
+            
+            // 最後のスライドなら「次へ」を非表示
+            nextBtn.style.opacity = currentSlide === totalSlides - 1 ? '0' : '1';
+            nextBtn.style.pointerEvents = currentSlide === totalSlides - 1 ? 'none' : 'auto';
+        };
+
+        // イベントリスナーを設定
+        nextBtn.addEventListener('click', () => {
+            goToSlide(currentSlide + 1);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            goToSlide(currentSlide - 1);
+        });
+        
+        // キーボードの左右矢印キーでも操作可能に
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                goToSlide(currentSlide + 1);
+            } else if (e.key === 'ArrowLeft') {
+                goToSlide(currentSlide - 1);
+            }
+        });
+
+        // 初期状態を設定
+        goToSlide(0);
+    </script>
+</body>
+</html> 
+</html> 
+</html> 
